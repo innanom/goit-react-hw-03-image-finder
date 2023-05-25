@@ -12,13 +12,13 @@ export class PixabayApi {
     fetchFotos() {
         return axios.get(`${this.#BASE_URL}`, {
             params: {
-            key:this.#API_KEY,
-            q: this.q,
-            image_type: 'photo',
-            orientation: 'horizontal',
-            safesearch: 'true',
-            page: this.page,
-            per_page: this.per_page,
+                key:this.#API_KEY,
+                q: this.q,
+                image_type: 'photo',
+                orientation: 'horizontal',
+                safesearch: 'true',
+                page: this.page,
+                per_page: this.per_page,
           },
         });
     }
