@@ -2,15 +2,30 @@ import React, { Component } from 'react';
 
 export class Searchbar extends Component {
     state = {
-        images: ''
+        imageName: ''
     }
 
     
+  handlenameChange = event => {
+    this.setState({ imageName: event.currentTarget.value.toLowerCase() });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+      if (this.state.imageName.trim() === '') {
+          alert("Enter data to search");
+          return;
+      }
+
+    this.props.onSubmit(this.state.imageName)
+    this.setState({ imageName: '' });
+  }
 
     render() {
         return (
             <header class="searchbar">
-            <form class="form">
+            <form onSubmit={this.handleSubmit} class="form">
                 <button type="submit" class="button">
                 <span class="button-label">Search</span>
                 </button>
@@ -20,7 +35,9 @@ export class Searchbar extends Component {
                 type="text"
                 autocomplete="off"
                 autofocus
-                placeholder="Search images and photos"
+                placeholder="Search imageName and photos"
+                value={this.state.imageName}
+                onChange={this.handlenameChange}
                 />
             </form>
 </header>
