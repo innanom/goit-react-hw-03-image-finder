@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export class  Searchbar extends Component {
     state = {
@@ -37,7 +38,7 @@ export class  Searchbar extends Component {
                 type="text"
                 autocomplete="off"
                 autofocus
-                placeholder="Search searchImage and photos"
+                placeholder="Search image and photos"
                 value={this.state.searchImage}
                 onChange={this.handlenameChange}
                 />
