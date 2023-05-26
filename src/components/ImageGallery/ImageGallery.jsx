@@ -6,11 +6,12 @@ export const ImageGallery = ({ foundImages }) => {
     
     return (
         <ul>
-            {foundImages.map(({ id, webformatURL, tags }) => (
+            {foundImages.map(({ id, webformatURL, largeImageURL }) => (
                 <ImageGalleryItem
                     key={id}
                     webformatURL={webformatURL}
-                    tags={tags}
+                    largeImageURL={largeImageURL}
+                    
                 />
             ))}
         
@@ -20,9 +21,9 @@ export const ImageGallery = ({ foundImages }) => {
 ImageGallery.propTypes = {
     foundImages: PropTypes.arrayOf(
         PropTypes.exact({
-             webformatURL: PropTypes.string.isRequired,
-             tags: PropTypes.string.isRequired,
-             id: PropTypes.number.isRequired
+            webformatURL: PropTypes.string.isRequired,
+            largeImageURL: PropTypes.string.isRequired,
+            id: PropTypes.number.isRequired
         })
     )
    
