@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export class  Searchbar extends Component {
     state = {
-        searchImage: ''
+        searchImage: '',
     }
 
     
@@ -21,7 +21,7 @@ export class  Searchbar extends Component {
           return
       }
 
-    this.props.onSubmit(this.state.searchImage)
+    this.props.onSubmit(this.state.searchImage);
     this.setState({ searchImage: '' });
   }
 
