@@ -33,8 +33,7 @@ export class App extends Component {
              return this.setState({
                galleryImages: imagesArray,
                allImages: totalHits
-             }
-             )
+             })
            })
            .then(console.log(this.allImages))
          .finally( this.setState({isLoading: false,}))
