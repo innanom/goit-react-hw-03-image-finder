@@ -1,11 +1,12 @@
 import React from 'react';
+import css from './ImageGalleryItem.module.css';
 import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({webformatURL, tags, largeImageURL }) => {
+export const ImageGalleryItem = ({webformatURL, tags, largeImageURL, openModal }) => {
     
     return (
-        <li className="gallery-item">
-        <img src={webformatURL} alt={tags} largeImageURL={ largeImageURL} />
+        <li className={css.imageGalleryItem} onClick={openModal}>
+        <img className={css.imageGalleryItem__image} src={webformatURL} alt={tags} largeImageURL={ largeImageURL} />
     </li>)
 }
 

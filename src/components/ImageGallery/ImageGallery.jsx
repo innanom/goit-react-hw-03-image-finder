@@ -1,16 +1,18 @@
 import React from 'react';
+import css from './ImageGallery.module.css';
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 
-export const ImageGallery = ({ foundImages }) => {
+export const ImageGallery = ({ foundImages, openModal }) => {
     
     return (
-        <ul>
+        <ul className={css.imageGallery}>
             {foundImages.map(({ id, webformatURL, largeImageURL }) => (
                 <ImageGalleryItem
                     key={id}
                     webformatURL={webformatURL}
                     largeImageURL={largeImageURL}
+                    openModal={openModal}
                     
                 />
             ))}

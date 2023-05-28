@@ -31,10 +31,9 @@ export class  Searchbar extends Component {
             <header className={css.searchbar}>
             <form onSubmit={this.handleSubmit} className={css.searchForm}>
                 <button type="submit" className={css.searchForm_button}>
-               <ImSearch />
+                <ImSearch size={20}/>
                 </button>
-                <label className={css.searchForm__button_label}>
-                  <input
+                <input
                   className={css.searchForm__input}
                   type="text"
                   autocomplete="off"
@@ -43,7 +42,7 @@ export class  Searchbar extends Component {
                   value={this.state.searchImage}
                   onChange={this.handlenameChange}
                   />
-              </label>
+              
             </form>
 </header>
         )
