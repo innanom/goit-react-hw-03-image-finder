@@ -15,14 +15,17 @@ export class App extends Component {
     galleryImages: [],
     allImages: null,
     error: null,
-    totalPage: null,
+    // totalPage: null,
+    page: 1,
   };
  
   componentDidUpdate(_, prevState) {
-       if (prevState.images !== this.state.images || prevState.totalPage !== pixabayApi.page) {
+    // const { images, page } = this.state;
+       if (prevState.images !== this.state.images || prevState.page !== this.state.page) {
 
       this.setState({ isLoadig: true});
-      pixabayApi.q = this.state.images;
+         pixabayApi.q = this.state.images;
+         pixabayApi.page = this.state.page;
       
         pixabayApi.fetchFotos()
         .then(({ data: {hits, totalHits} }) => {
@@ -33,39 +36,20 @@ export class App extends Component {
              }))
 
              return this.setState({
-               galleryImages: [...prevState.galleryImages, ...imagesArray ],
+               galleryImages: [...prevState.galleryImages, ...imagesArray],
                allImages: totalHits
              })
            })
         .catch(error => this.setState({error}))
         .finally( this.setState({isLoading: false,}))
     }
-    const totalPage = Math.ceil(this.state.allImages / pixabayApi.per_page);
-     this.setState({totalPage})
+    
 
-    // if (totalPage !== pixabayApi.page) {
-    //   pixabayApi.fetchFotos()
-    //     .then(({ data: {hits} }) => {
-    //         const imagesArray = hits.map(({id,  webformatURL, largeImageURL}) => ({
-    //          id,
-    //          webformatURL,
-    //          largeImageURL
-    //          }))
-
-    //          return this.setState(prevState => ({
-    //            galleryImages: [...prevState.galleryImages, ...imagesArray ]
-               
-    //          }))
-    //        })
-    //     .catch(error => this.setState({error}))
-    //     .finally( this.setState({isLoading: false,}))
-
-    // }
-  }
+    }
 
   handleLoadMore = () => {
-    pixabayApi.page += 1;
-    console.log(pixabayApi.page);
+    this.setState({page: pixabayApi.page += 1})
+    
   }
 
   handleFormSubmit = searchImage => {
@@ -74,13 +58,18 @@ export class App extends Component {
   };
 
   render() {
+
+    const totalPage = Math.ceil(this.state.allImages / pixabayApi.per_page);
+    console.log(totalPage)
+
     return (
+          
       <div>
         
         <Searchbar onSubmit={this.handleFormSubmit} />
         {this.state.isLoading && <p>Loading...</p>}
         {this.state.galleryImages && <ImageGallery foundImages={this.state.galleryImages} />}
-        {this.state.allImages > 12 && <LoadMore onClick={this.handleLoadMore} />}
+        {totalPage > this.state.page && <LoadMore onClick={this.handleLoadMore} />}
         <ToastContainer
           position="top-center"
           autoClose={3000} />
