@@ -5,7 +5,8 @@ import { Searchbar } from '../Searchbar/Searchbar';
 import { PixabayApi } from '../Fetch/fetchApi';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { LoadMore } from '../Button/Button';
-import { Loader } from "../Loader/Loader";
+import { Loader } from '../Loader/Loader';
+import { Modal } from '../Modal/Modal'
 
 
 const pixabayApi = new PixabayApi();
@@ -17,8 +18,8 @@ export class App extends Component {
     galleryImages: [],
     allImages: null,
     error: null,
-    // totalPage: null,
     page: 1,
+    showModal: false,
   };
  
   componentDidUpdate(_, prevState) {
@@ -59,19 +60,25 @@ export class App extends Component {
     
   };
 
+  toggleModal = () => {
+    this.setState(({showModal}) => ({
+      showModal: !showModal
+    }))
+  }
+
   render() {
 
     const totalPage = Math.ceil(this.state.allImages / pixabayApi.per_page);
-    console.log(totalPage)
+    
+    const { isLoading, galleryImages, page, showModal } = this.state;
 
     return (
-          
       <div>
-        
+        {showModal && <Modal/>}
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {this.state.isLoading && <Loader/>}
-        {this.state.galleryImages && <ImageGallery foundImages={this.state.galleryImages} />}
-        {totalPage > this.state.page && <LoadMore onClick={this.handleLoadMore} />}
+        {isLoading && <Loader/>}
+        {galleryImages && <ImageGallery foundImages={galleryImages} openModal={this.toggleModal} />}
+        {totalPage > page && <LoadMore onClick={this.handleLoadMore} />}
         <ToastContainer
           position="top-center"
           autoClose={3000} />
