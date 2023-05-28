@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import css from './Searchbar.module.css';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -27,21 +28,22 @@ export class  Searchbar extends Component {
 
     render() {
         return (
-            <header className="searchbar">
-            <form onSubmit={this.handleSubmit} className="form">
-                <button type="submit" className="button">
+            <header className={css.searchbar}>
+            <form onSubmit={this.handleSubmit} className={css.searchForm}>
+                <button type="submit" className={css.searchForm_button}>
                <ImSearch />
                 </button>
-
-                <input
-                className="input"
-                type="text"
-                autocomplete="off"
-                autofocus
-                placeholder="Search image and photos"
-                value={this.state.searchImage}
-                onChange={this.handlenameChange}
-                />
+                <label className={css.searchForm__button_label}>
+                  <input
+                  className={css.searchForm__input}
+                  type="text"
+                  autocomplete="off"
+                  autofocus
+                  placeholder="Search image and photos"
+                  value={this.state.searchImage}
+                  onChange={this.handlenameChange}
+                  />
+              </label>
             </form>
 </header>
         )

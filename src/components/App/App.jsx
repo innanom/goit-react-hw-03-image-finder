@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+// import css from './App.module.css';
 import { ToastContainer } from 'react-toastify';
-import { Searchbar } from './Searchbar/Searchbar';
-import { PixabayApi } from './Fetch/fetchApi';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { LoadMore } from './Button/Button';
+import { Searchbar } from '../Searchbar/Searchbar';
+import { PixabayApi } from '../Fetch/fetchApi';
+import { ImageGallery } from '../ImageGallery/ImageGallery';
+import { LoadMore } from '../Button/Button';
+import { Loader } from "../Loader/Loader";
 
 
 const pixabayApi = new PixabayApi();
@@ -67,7 +69,7 @@ export class App extends Component {
       <div>
         
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {this.state.isLoading && <p>Loading...</p>}
+        {this.state.isLoading && <Loader/>}
         {this.state.galleryImages && <ImageGallery foundImages={this.state.galleryImages} />}
         {totalPage > this.state.page && <LoadMore onClick={this.handleLoadMore} />}
         <ToastContainer
