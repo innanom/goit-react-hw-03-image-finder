@@ -7,7 +7,7 @@ export class PixabayApi {
     
     page = 1;
     q = '';
-    per_page = 100
+    per_page = 12
     
     fetchFotos() {
         return axios.get(`${this.#BASE_URL}`, {

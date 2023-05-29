@@ -20,61 +20,63 @@ export class App extends Component {
     error: null,
     page: 1,
     showModal: false,
+    largeImageURL: '',
+    tags: ''
+
   };
  
   componentDidUpdate(_, prevState) {
-    // const { images, page } = this.state;
-       if (prevState.images !== this.state.images || prevState.page !== this.state.page) {
+    const { images, page } = this.state;
+       if (prevState.images !== images || prevState.page !== page) {
 
-      this.setState({ isLoadig: true});
-         pixabayApi.q = this.state.images;
-         pixabayApi.page = this.state.page;
+        this.setState({ isLoadig: true, galleryImages: [] });
+         pixabayApi.q = images;
+         pixabayApi.page = page;
       
         pixabayApi.fetchFotos()
         .then(({ data: {hits, totalHits} }) => {
             const imagesArray = hits.map(({id,  webformatURL, largeImageURL}) => ({
              id,
              webformatURL,
-             largeImageURL
+              largeImageURL
              }))
 
              return this.setState({
                galleryImages: [...prevState.galleryImages, ...imagesArray],
-               allImages: totalHits
-             })
+               allImages: totalHits,
+            })
            })
         .catch(error => this.setState({error}))
         .finally( this.setState({isLoading: false,}))
     }
-    
-
-    }
+  };
 
   handleLoadMore = () => {
-    this.setState({page: pixabayApi.page += 1})
-    
-  }
+    this.setState({ page: pixabayApi.page += 1 })
+  };
 
   handleFormSubmit = searchImage => {
     this.setState({ images: searchImage });
-    
   };
 
-  toggleModal = () => {
-    this.setState(({showModal}) => ({
-      showModal: !showModal
-    }))
+  toggleModal = (largeImageURL) => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+      largeImageURL: largeImageURL
+   }))
   }
 
   render() {
 
     const totalPage = Math.ceil(this.state.allImages / pixabayApi.per_page);
-    
-    const { isLoading, galleryImages, page, showModal } = this.state;
+    const { isLoading, galleryImages, page, showModal, largeImageURL, tags  } = this.state;
 
     return (
       <div>
-        {showModal && <Modal/>}
+        {showModal && (<Modal onClose={this.toggleModal}>
+          <img src={largeImageURL} alt={tags}/>
+        </Modal>)
+        }
         <Searchbar onSubmit={this.handleFormSubmit} />
         {isLoading && <Loader/>}
         {galleryImages && <ImageGallery foundImages={galleryImages} openModal={this.toggleModal} />}
