@@ -29,7 +29,7 @@ export class App extends Component {
     const { images, page } = this.state;
        if (prevState.images !== images || prevState.page !== page) {
 
-        this.setState({ isLoadig: true, galleryImages: [] });
+        this.setState({ isLoadig: true});
          pixabayApi.q = images;
          pixabayApi.page = page;
       
