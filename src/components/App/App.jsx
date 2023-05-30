@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-// import css from './App.module.css';
 import { ToastContainer } from 'react-toastify';
 import { Searchbar } from '../Searchbar/Searchbar';
-import { PixabayApi } from '../Fetch/fetchApi';
+import { PixabayApi } from '../../servises/fetchApi';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { LoadMore } from '../Button/Button';
 import { Loader } from '../Loader/Loader';
@@ -13,11 +12,11 @@ const pixabayApi = new PixabayApi();
 
 export class App extends Component {
   state = {
-    images: "",
+    images: '',
     isLoading: false,
     galleryImages: [],
     allImages: null,
-    error: null,
+    error: false,
     page: 1,
     showModal: false,
     largeImageURL: '',
@@ -27,12 +26,13 @@ export class App extends Component {
  
   componentDidUpdate(_, prevState) {
     const { images, page } = this.state;
+
        if (prevState.images !== images || prevState.page !== page) {
 
-        this.setState({ isLoadig: true});
          pixabayApi.q = images;
          pixabayApi.page = page;
-      
+
+        this.setState({ isLoading: true});
         pixabayApi.fetchFotos()
         .then(({ data: {hits, totalHits} }) => {
             const imagesArray = hits.map(({id,  webformatURL, largeImageURL}) => ({
@@ -41,22 +41,23 @@ export class App extends Component {
               largeImageURL
              }))
 
-             return this.setState({
+              this.setState(prevState => ({
                galleryImages: [...prevState.galleryImages, ...imagesArray],
                allImages: totalHits,
-            })
+            }))
            })
-        .catch(error => this.setState({error}))
-        .finally( this.setState({isLoading: false,}))
+        .catch(error => this.setState({error, galleryImages: []}))
+        .finally(()=> {this.setState({isLoading: false})})
     }
   };
 
   handleLoadMore = () => {
-    this.setState({ page: pixabayApi.page += 1 })
+    this.setState(({ page }) => ({ page: page += 1 }));
   };
 
   handleFormSubmit = searchImage => {
-    this.setState({ images: searchImage });
+    
+    this.setState({ images: searchImage, page: 1, galleryImages: [] });
   };
 
   toggleModal = (largeImageURL) => {

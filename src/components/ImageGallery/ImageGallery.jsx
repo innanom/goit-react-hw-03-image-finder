@@ -21,6 +21,7 @@ export const ImageGallery = ({ foundImages, openModal }) => {
 };
 
 ImageGallery.propTypes = {
+    openModal: PropTypes.func.isRequired,
     foundImages: PropTypes.arrayOf(
         PropTypes.exact({
             webformatURL: PropTypes.string.isRequired,
