@@ -7,13 +7,13 @@ export const ImageGallery = ({ foundImages, openModal }) => {
     
     return (
         <ul className={css.imageGallery}>
-            {foundImages.map(({ id, webformatURL, largeImageURL }) => (
+            {foundImages.map(({ id, webformatURL, largeImageURL, tags }) => (
                 <ImageGalleryItem
                     key={id}
                     webformatURL={webformatURL}
                     largeImageURL={largeImageURL}
                     openModal={openModal}
-                    
+                    tags={tags}                    
                 />
             ))}
         
@@ -26,7 +26,8 @@ ImageGallery.propTypes = {
         PropTypes.exact({
             webformatURL: PropTypes.string.isRequired,
             largeImageURL: PropTypes.string.isRequired,
-            id: PropTypes.number.isRequired
+            id: PropTypes.number.isRequired,
+            tags: PropTypes.string,
         })
     )
    

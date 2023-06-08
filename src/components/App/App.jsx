@@ -35,15 +35,17 @@ export class App extends Component {
         this.setState({ isLoading: true});
         pixabayApi.fetchFotos()
         .then(({ data: {hits, totalHits} }) => {
-            const imagesArray = hits.map(({id,  webformatURL, largeImageURL}) => ({
+            const imagesArray = hits.map(({id,  webformatURL, largeImageURL, tags}) => ({
              id,
              webformatURL,
-              largeImageURL
+              largeImageURL,
+              tags
              }))
 
               this.setState(prevState => ({
                galleryImages: [...prevState.galleryImages, ...imagesArray],
-               allImages: totalHits,
+                allImages: totalHits,
+                tags: hits.tags,
             }))
            })
         .catch(error => this.setState({error, galleryImages: []}))
